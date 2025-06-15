@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    
+    <!-- Bias Confidence Level Colors -->
+    <color name="bias_high">#FFEBEE</color>     <!-- Light red for high confidence -->
+    <color name="bias_medium">#FFF3E0</color>   <!-- Light orange for medium confidence -->
+    <color name="bias_low">#E8F5E8</color>      <!-- Light green for low confidence -->
+</resources>

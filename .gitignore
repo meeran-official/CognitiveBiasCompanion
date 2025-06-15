@@ -1,0 +1,26 @@
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# API Keys and Sensitive Data - NEVER COMMIT THESE!
+google-services.json
+*.keystore
+*.jks
+secrets.properties
+config.properties
+
+# APK/AAB files
+*.apk
+*.aab

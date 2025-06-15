@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Cognitive Bias Companion</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    
+    <!-- Home Fragment -->
+    <string name="welcome_title">Welcome to Cognitive Bias Companion</string>
+    <string name="welcome_subtitle">Your AI-powered assistant to overcome cognitive biases</string>
+    
+    <!-- Bias Scanner -->
+    <string name="scan_text_hint">Enter text to analyze for cognitive biases...</string>
+    <string name="analyze_button">Analyze Text</string>
+    <string name="paste_from_clipboard">Paste from Clipboard</string>
+    
+    <!-- News Analysis -->
+    <string name="latest_news">Latest News</string>
+    <string name="bias_level">Bias Level</string>
+    <string name="analyze_article">Analyze Article</string>
+    
+    <!-- Learning -->
+    <string name="learn_about_biases">Learn About Cognitive Biases</string>
+    <string name="daily_bias">Daily Bias</string>
+    <string name="quiz_title">Bias Detection Quiz</string>
+    
+    <!-- Analytics -->
+    <string name="your_progress">Your Progress</string>
+    <string name="bias_awareness_score">Bias Awareness Score</string>
+    <string name="analyzed_texts">Analyzed Texts</string>
+</resources>
