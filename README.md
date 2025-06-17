@@ -1,115 +1,124 @@
 # Cognitive Bias Companion
 
-An Android app that helps you identify cognitive biases in text using AI. Built with Google Gemini and NewsAPI integration.
-
-## Features
-
-- **Text Analysis**: Paste any text and get AI-powered bias detection with confidence scores
-- **News Analysis**: Browse current news articles and analyze them for potential biases
-- **Educational Quiz**: Interactive quiz to test your knowledge of cognitive biases
-- **Modern Interface**: Clean Material Design 3 UI with smooth navigation
+An Android app that uses AI to spot cognitive biases in text. Think of it as a BS detector powered by Google's Gemini AI.
 
 ## What it does
 
-The app uses Google's Gemini AI to analyze text for common cognitive biases like confirmation bias, anchoring bias, availability heuristic, and others. It provides structured results with explanations and confidence levels.
+Drop any text into the app and it'll tell you what cognitive biases might be lurking in there - confirmation bias, anchoring, availability heuristic, you name it. It also pulls in live news and lets you analyze articles for bias.
 
-For news analysis, it fetches articles from NewsAPI and lets you analyze individual articles to understand potential bias in reporting.
+There's also a quiz if you want to test your knowledge about these mental traps we all fall into.
 
-## Setup
+## Tech Stack
 
-You'll need two free API keys:
+- **Android**: Native with Material Design 3
+- **AI**: Google Gemini API for bias detection  
+- **News**: NewsAPI for live articles
+- **Networking**: Retrofit + OkHttp
+- **UI**: ViewBinding, Navigation Component, RecyclerView
 
-1. **Gemini API**: Get one from [Google AI Studio](https://makersuite.google.com/app/apikey)
-2. **NewsAPI**: Sign up at [newsapi.org](https://newsapi.org/register)
+## Quick Start
 
-Add them to your `local.properties` file:
+You'll need API keys (both are free):
+
+1. Gemini: [makersuite.google.com](https://makersuite.google.com/app/apikey)
+2. NewsAPI: [newsapi.org](https://newsapi.org/register)
+
+Drop them in `local.properties`:
+```properties
+GEMINI_API_KEY=your_key
+NEWS_API_KEY=your_key
 ```
-GEMINI_API_KEY=your_key_here
-NEWS_API_KEY=your_key_here
-```
 
-Then build and run the project in Android Studio.
+Build and run. That's it.
 
 ## Project Structure
 
 ```
 app/
-├── models/           # Data classes for bias results, news articles, quiz questions
-├── api/             # Retrofit services for Gemini and NewsAPI
-├── fragments/       # Main app screens (home, scanner, news, learning, analytics)
-├── adapters/        # RecyclerView adapters for displaying results
-├── activities/      # MainActivity and QuizActivity
-└── res/             # Layouts and resources
+├── models/           # Data models (BiasResult, NewsArticle, QuizQuestion)
+├── api/             # Retrofit services + API clients
+├── fragments/       # Main screens (home, scanner, news, quiz, analytics)
+├── adapters/        # RecyclerView adapters
+├── activities/      # MainActivity + QuizActivity
+└── utils/           # Helper classes
 ```
 
 ## How it works
 
-### Bias Scanner
-Enter or paste text into the scanner. The app sends it to Google Gemini with a structured prompt asking for bias analysis. Results come back as JSON with bias types, confidence percentages, and explanations.
+**Text Scanner**: Paste text, app sends it to Gemini with a structured prompt, gets back JSON with bias types and confidence scores. Results show up in nice cards with progress bars.
 
-### News Analysis  
-The app fetches recent articles from NewsAPI and displays them in a feed. Tap "Analyze Bias" on any article to run it through the same Gemini analysis.
+**News Feed**: Fetches articles from NewsAPI, each has an "Analyze" button that runs the same bias detection on the article content.
 
-### Quiz
-A simple multiple-choice quiz about different cognitive biases. Questions cover common biases with explanations for each answer.
+**Quiz**: Hardcoded questions about cognitive biases. Multiple choice with explanations. Tracks your score.
+
+## Key Implementation Details
+
+### API Integration
+Gemini API uses a custom prompt that asks for structured JSON responses. Looks like this:
+```
+"Analyze this text for cognitive biases. Return JSON with bias_type, confidence, explanation, snippet fields."
+```
+
+Error handling includes retries and fallback to sample data when APIs are down.
+
+### UI Architecture  
+Bottom nav with 5 tabs. ViewBinding everywhere. Material Design 3 components with custom styling for bias result cards.
+
+Navigation Component handles the fragment switching. No activities except MainActivity and QuizActivity.
+
+### Security
+API keys come from BuildConfig at runtime, which pulls from local.properties during build. Keeps sensitive stuff out of git.
+
+```gradle
+buildConfigField("String", "GEMINI_API_KEY", "\"${getLocalProperty('GEMINI_API_KEY')}\"")
+```
 
 ## Dependencies
 
-- Retrofit for networking
-- Material Design Components  
-- Android Navigation Component
-- ViewBinding for layouts
+```gradle
+// Core Android
+implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
+implementation("com.google.android.material:material:1.11.0")
 
-## Building
+// Networking  
+implementation("com.squareup.retrofit2:retrofit:2.9.0")
+implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+```
 
-Standard Android Studio project. Make sure you have:
-- Android SDK 24+
-- Valid API keys in local.properties
-- Internet permission (already included)
+## Current State
 
-The app handles network errors gracefully and includes fallback content when APIs are unavailable.
+Everything works. The bias detection is surprisingly good - Gemini does a decent job identifying different types of biases and explaining them.
 
-## Screenshots
+**What's implemented:**
+- Text analysis with confidence scores
+- Live news feed with per-article analysis
+- Educational quiz with scoring
+- Material Design 3 UI
+- Proper error handling
 
-The app has five main sections accessible via bottom navigation:
+**What's missing:**
+- Analytics tab is just a placeholder
+- No local storage (everything's ephemeral)
+- Quiz questions are hardcoded
+- English only
 
-- **Home**: Welcome screen with daily bias information and quick actions
-- **Scanner**: Text input area with paste functionality and analysis results
-- **News**: Feed of current articles with individual bias analysis options  
-- **Learning**: Educational quiz with immediate feedback and scoring
-- **Analytics**: Progress tracking (placeholder for now)
+## If you want to extend this
 
-## Technical notes
+Some ideas:
+- Add SQLite to save analysis history
+- More quiz categories or user-generated questions  
+- Export results to PDF/text
+- Offline mode with cached content
+- Support for other languages
+- Custom bias definitions
 
-### API Integration
-The Gemini integration uses a structured prompt to get consistent JSON responses. Error handling includes retry logic and fallback to sample data when the API is unavailable.
+The codebase is pretty clean so adding features shouldn't be too painful.
 
-NewsAPI responses are parsed into article objects with proper null checking since some fields can be missing.
+## Notes
 
-### UI Implementation  
-Built with Material Design 3 components. The bias results use custom card layouts with progress indicators to show confidence levels visually.
+This was built as a learning project but turned out pretty solid. The AI integration works well and the UI feels polished.
 
-Navigation uses the Android Navigation Component with a bottom navigation view. ViewBinding is enabled throughout for type-safe view references.
+Gemini API is free and doesn't require a credit card, which is nice. NewsAPI has a generous free tier too.
 
-### Security
-API keys are loaded from BuildConfig at runtime, which gets them from local.properties during build. This keeps sensitive data out of version control.
-
-## Known limitations
-
-- Quiz questions are currently hardcoded (could be moved to a database)
-- Analytics tab is a placeholder  
-- No offline mode (requires internet for all features)
-- Limited to English text analysis
-
-## Future improvements
-
-Some ideas for extending the app:
-- Save analysis history locally
-- Export analysis results
-- More quiz categories  
-- Custom bias detection rules
-- Social sharing of results
-
-## License
-
-This project is for educational purposes. API usage is subject to the terms of Google AI and NewsAPI respectively.
+The app handles network failures gracefully and includes sample data for testing without API keys.
