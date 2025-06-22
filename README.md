@@ -1,6 +1,6 @@
 # Cognitive Bias Companion
 
-An Android app that uses AI to spot cognitive biases in text. Think of it as a BS detector powered by Google's Gemini AI.
+An Android app that uses AI to spot cognitive biases in text. A Bias detector powered by Google's Gemini AI.
 
 ## What it does
 
